@@ -1,4 +1,4 @@
-import { Text, TextInput, View, Button, TouchableOpacity } from "react-native";
+import { Text, TextInput, View, Button, TouchableOpacity, Vibration } from "react-native";
 import styles from "./style";
 import ResultImc from "./resultimc";
 import React, { useState } from 'react';
@@ -9,6 +9,14 @@ export default function Form() {
     const [altura, setAltura] = useState(null)
     const [peso, setPeso] = useState(null)
     const [bntMessage, setBntMessage] = useState("Calcular")
+    const [imcErrorMessage, setImcErrorMessage] = useState(null)
+
+    function errorImc(){
+        if(resultImc === null){
+            setImcErrorMessage("*campo obrigatório")
+            Vibration.vibrate()
+        }
+    }
 
     function validation(){
             if(altura != null && peso != null){
@@ -16,10 +24,13 @@ export default function Form() {
                 setMessageImc("Opa, Seu Imc é:")
                 setResultImc(imc);
                 setBntMessage("Calcular Novamente")
+                setImcErrorMessage(null)
                 
             }else{
+                errorImc()
                 setMessageImc("*Insira os campos acima")
                 setResultImc(null);
+                setBntMessage("Calcular")
             }
             setAltura(null)
             setPeso(null)
@@ -29,6 +40,7 @@ export default function Form() {
         <View>
             <View>
                 <Text style={styles.labelStyle}>Altura</Text>
+                <Text style={styles.errorImcMessage}>{imcErrorMessage}</Text>
                 <TextInput style={styles.inputs} 
                 keyboardType="numeric" 
                 onChangeText={setAltura}
@@ -36,6 +48,7 @@ export default function Form() {
                 placeholder="Ex. 1.80"></TextInput>
 
                 <Text style={styles.labelStyle}>Peso</Text>
+                <Text style={styles.errorImcMessage}>{imcErrorMessage}</Text>
                 <TextInput style={styles.inputs} 
                 keyboardType="numeric"
                 onChangeText={setPeso} 

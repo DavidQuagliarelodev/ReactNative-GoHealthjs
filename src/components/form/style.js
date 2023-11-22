@@ -42,6 +42,11 @@ const styles = StyleSheet.create({
         padding: 20,
         borderRadius: 30
     },
+    errorImcMessage:{
+        color:"red",
+        marginTop: 5,
+        fontWeight: "bold"
+    },
     bntText:{
         justifyContent: "center",
         alignItems: "center",
